@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Stack;
 /*
  * Question 1
  * We have two arrays arr1 and arr2 which are initially empty. You need to add
@@ -11,77 +17,73 @@
  * Given divisor1, divisor2, uniqueCnt1, and uniqueCnt2, return the minimum
  * possible maximum integer that can be present in either array.
  */
-// public class GoldmanSachs {
-// int gcd(int a, int b){
-// return b == 0 ? a : gcd(b, a% b);
-// }
 
-// public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
-// uniqueCnt2) {
-// long l = 1, r = (int) (2 * 1e9);
-// long ans = r;
-// long lcm = (1L * divisor1 * divisor2) / gcd(divisor1, divisor2);
-// for (; l <= r;) {
-// long mid = (l + r) >> 1;
-// long x = mid - mid / divisor1;
-// long y = mid - mid / divisor2;
-// long z = mid - mid / lcm;
-// if (x < 1L * uniqueCnt1 || y < 1L * uniqueCnt2 || z < 1L * (uniqueCnt1 +
-// uniqueCnt2))
-// l = mid + 1;
-// else {
-// ans = Math.min(ans, mid);
-// r = mid - 1;
-// }
-// }
-// return (int) ans;
-// }
-// }
+public class GoldmanSachs {
+int gcd(int a, int b){
+return b == 0 ? a : gcd(b, a% b);
+}
+public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int
+uniqueCnt2) {
+long l = 1, r = (int) (2 * 1e9);
+long ans = r;
+long lcm = (1L * divisor1 * divisor2) / gcd(divisor1, divisor2);
+for (; l <= r;) {
+long mid = (l + r) >> 1;
+long x = mid - mid / divisor1;
+long y = mid - mid / divisor2;
+long z = mid - mid / lcm;
+if (x < 1L * uniqueCnt1 || y < 1L * uniqueCnt2 || z < 1L * (uniqueCnt1 +
+uniqueCnt2))
+l = mid + 1;
+else {
+ans = Math.min(ans, mid);
+r = mid - 1;
+}
+}
+return (int) ans;
+}
+}
 
 /*
  * Question 2
- * You are given a 2D 0-indexed array of strings, access_times, with size n. For each i where 0 <= i <= n - 1, access_times[i][0] represents the name of an employee, and access_times[i][1] represents the access time of that employee. All entries in access_times are within the same day.
-
+ * You are given a 2D 0-indexed array of strings, access_times, with size n. For each i where 0 <= i <= n - 1, access_times[i][0] represents the name of an employee, and access_times[i][1] represents the access time of that employee. 
+ * All entries in access_times are within the same day.
 The access time is represented as four digits using a 24-hour time format, for example, "0800" or "2250".
-
 An employee is said to be high-access if he has accessed the system three or more times within a one-hour period.
-
 Times with exactly one hour of difference are not considered part of the same one-hour period. For example, "0815" and "0915" are not part of the same one-hour period.
-
 Access times at the start and end of the day are not counted within the same one-hour period. For example, "0005" and "2350" are not part of the same one-hour period.
-
 Return a list that contains the names of high-access employees with any order you want.
  */
 
-// import java.util.ArrayList;
-// import java.util.Collections;
-// import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-// public class GoldmanSachs {
-// public List<String> findHighAccessEmployees(List<List<String>> access_times)
-// {
-// java.util.Map<String, List<Integer>> map = new HashMap<>();
-// for (List<String> timing : access_times) {
-// String name = timing.get(0);
-// int t = Integer.parseInt(timing.get(1));
-// map.putIfAbsent(name, new ArrayList<>());
-// map.get(name).add(t);
-// }
-// List<String> res = new ArrayList<>();
-// for (String name : map.keySet()) {
-// List<Integer> times = map.get(name);
-// Collections.sort(times);
-// for (int i = 0; i < times.size() - 2; i++) {
-// if (times.get(i + 2) - times.get(i) < 100) {
-// res.add(name);
-// break;
-// }
-// }
-// }
-// return res;
+public class GoldmanSachs {
+public List<String> findHighAccessEmployees(List<List<String>> access_times)
+{
+java.util.Map<String, List<Integer>> map = new HashMap<>();
+for (List<String> timing : access_times) {
+String name = timing.get(0);
+int t = Integer.parseInt(timing.get(1));
+map.putIfAbsent(name, new ArrayList<>());
+map.get(name).add(t);
+}
+List<String> res = new ArrayList<>();
+for (String name : map.keySet()) {
+List<Integer> times = map.get(name);
+Collections.sort(times);
+for (int i = 0; i < times.size() - 2; i++) {
+if (times.get(i + 2) - times.get(i) < 100) {
+res.add(name);
+break;
+}
+}
+}
+return res;
 
-// }
-// }
+}
+}
 
 /*
  * Question 3
@@ -96,36 +98,36 @@ To trim to the rightmost x digits means to keep removing the leftmost digit, unt
 Strings in nums may contain leading zeros.
  */
 
-// class Node {
-// int index;
-// String val;
+class Node {
+int index;
+String val;
 
-// Node(int i, String V){
-// this.index = i;
-// this.val = V;
-// }
-// }
+Node(int i, String V){
+this.index = i;
+this.val = V;
+}
+}
 
-// public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
-// HashMap<Integer, Node[]> map = new HashMap<>();
-// int[] res = new int[queries.length];
-// int idx = 0, len = nums[0].length();
+public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+HashMap<Integer, Node[]> map = new HashMap<>();
+int[] res = new int[queries.length];
+int idx = 0, len = nums[0].length();
 
-// for (int[] query : queries) {
-// if (!map.containsKey(query[1])) {
-// Node[] arr = new Node[nums.length];
-// for (int i = 0; i < nums.length; i++) {
-// String x = nums[i].substring(len - query[1], len);
-// arr[i] = new Node(i, x);
-// }
-// Arrays.sort(arr, (a, b) -> a.val.compareTo(b.val));
-// map.put(query[1], arr);
-// }
-// res[idx++] = map.get(query[1])[query[0] - 1].index;
-// }
+for (int[] query : queries) {
+if (!map.containsKey(query[1])) {
+Node[] arr = new Node[nums.length];
+for (int i = 0; i < nums.length; i++) {
+String x = nums[i].substring(len - query[1], len);
+arr[i] = new Node(i, x);
+}
+Arrays.sort(arr, (a, b) -> a.val.compareTo(b.val));
+map.put(query[1], arr);
+}
+res[idx++] = map.get(query[1])[query[0] - 1].index;
+}
 
-// return res;
-// 
+return res;
+
 
 /*
  Question 4
@@ -135,41 +137,40 @@ Return a list of all possible valid combinations. The list must
  not contain the same combination twice, and the combinations may be returned in any order.
  */
 
-// import java.util.ArrayList;
-// import java.util.List;
+public class GoldmanSachs {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+       List<List<Integer>> result = new ArrayList<>();
+       List<Integer> current = new ArrayList<>();
+       backTrack(result, current, k, n, 1);
+       return result; 
+    }
 
-// public class GoldmanSachs {
-//     public List<List<Integer>> combinationSum3(int k, int n) {
-//        List<List<Integer>> result = new ArrayList<>();
-//        List<Integer> current = new ArrayList<>();
-//        backTrack(result, current, k, n, 1);
-//        return result; 
-//     }
+    private void backTrack(List<List<Integer>> result,List<Integer> 
+    current, int k, int target, int start){
+        if (target == 0 && current.size() == k) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        for (int i = start; i <= 9; i++) {
+            current.add(i);
+            backTrack(result, current, k, target -i, i +1);
+            current.remove(current.size()-1);
+        }
 
-//     private void backTrack(List<List<Integer>> result,List<Integer> 
-//     current, int k, int target, int start){
-//         if (target == 0 && current.size() == k) {
-//             result.add(new ArrayList<>(current));
-//             return;
-//         }
-//         for (int i = start; i <= 9; i++) {
-//             current.add(i);
-//             backTrack(result, current, k, target -i, i +1);
-//             current.remove(current.size()-1);
-//         }
-
-//     }
-// }
+    }
+}
 
 /*
  Question 5
+ There is an m x n binary grid matrix with all the values set 0 initially. Design an algorithm to randomly pick an index (i, j) where matrix[i][j] == 0 and flips it to 1.
+  All the indices (i, j) where matrix[i][j] == 0 should be equally likely to be returned.
+Optimize your algorithm to minimize the number of calls made to the built-in random function of your language and optimize the time and space complexity.
+Implement the Solution class:
+Solution(int m, int n) Initializes the object with the size of the binary matrix m and n.
+int[] flip() Returns a random index [i, j] of the matrix where matrix[i][j] == 0 and flips it to 1.
+void reset() Resets all the values of the matrix to be 0.
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class GoldmanSachs {
 int rows;
@@ -199,9 +200,9 @@ public void reset() {
 
 /*
  Question 6
-
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.
+A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
  */
-
 public class GoldmanSachs {
 
    public List<String> letterCombinations(String digits) {
@@ -233,6 +234,7 @@ public class GoldmanSachs {
   One number 'A' from set {1, 2,....,N} is missing and one number 
  'B' occurs twice in array. Find these two numbers.
  */
+
 
 public class GoldmanSachs {
   int[] findTwoElement(int arr[], int n) {
@@ -266,21 +268,49 @@ boolean consec(int num) Adds num to the stream of integers. Returns true if the 
 If there are less than k integers, the condition does not hold true, so returns false.
  */
 
-// public class GoldmanSachs {
-//   private int value, k, count;
-  
-//   public DataStream(int value, int k) {
-//         this.value = value;
-//         this.k = k;
-//     }
 
-//   public boolean consec(int num) {
-//     if(value == num) {
-//       ++count;
-//     }
-//     else {
-//       count=0;
-//     }
-//     return count >=k;
-//   }
-//  }
+public class GoldmanSachs {
+  private int value, k, count;
+
+  public DataStream(int value, int k) {
+        this.value = value;
+        this.k = k;
+    }
+
+  public boolean consec(int num) {
+    if(value == num) {
+      ++count;
+    }
+    else {
+      count=0;
+    }
+    return count >=k;
+  }
+ }
+
+/*
+Question 9
+Given a pattern containing only I's and D's. 
+I for increasing and D for decreasing. 
+Devise an algorithm to print the minimum number following that pattern.
+ Digits from 1-9 and digits can't repeat.
+ */
+
+public class GoldmanSachs {
+  static String printMinNumberForPattern(String S) 
+  {
+    StringBuilder result = new StringBuilder();
+    Stack<Integer> stack = new Stack<>();
+    int n = S.length();
+    for (int i = 0; i <= n; i++) {
+      stack.push(i+1);
+      if(i == n || S.charAt(i) == 'I'){
+        while (!stack.isEmpty()) {
+          result.append(stack.pop());
+        }
+      }
+    }
+    return result.toString();
+  }
+
+}
