@@ -22,28 +22,28 @@ import java.util.Collections;
  */
 
 public class GoldmanSachs {
-     int gcd(int a, int b){
-        return b == 0 ? a : gcd(b, a% b);
+  int gcd(int a, int b) {
+    return b == 0 ? a : gcd(b, a % b);
+  }
+
+  public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
+    long l = 1, r = (int) (2 * 1e9);
+    long ans = r;
+    long lcm = (1L * divisor1 * divisor2) / gcd(divisor1, divisor2);
+    for (; l <= r;) {
+      long mid = (l + r) >> 1;
+      long x = mid - mid / divisor1;
+      long y = mid - mid / divisor2;
+      long z = mid - mid / lcm;
+      if (x < 1L * uniqueCnt1 || y < 1L * uniqueCnt2 || z < 1L * (uniqueCnt1 + uniqueCnt2))
+        l = mid + 1;
+      else {
+        ans = Math.min(ans, mid);
+        r = mid - 1;
+      }
     }
-    
-    public int minimizeSet(int divisor1, int divisor2, int uniqueCnt1, int uniqueCnt2) {
-        long l = 1, r = (int) (2 * 1e9);
-        long ans = r;
-        long lcm = (1L * divisor1 * divisor2) / gcd(divisor1, divisor2);
-        for (; l <= r;) {
-            long mid = (l + r) >> 1;
-            long x = mid - mid / divisor1;
-            long y = mid - mid / divisor2;
-            long z = mid - mid / lcm;
-            if (x < 1L * uniqueCnt1 || y < 1L * uniqueCnt2 || z < 1L * (uniqueCnt1 + uniqueCnt2))
-                l = mid + 1;
-            else {
-                ans = Math.min(ans, mid);
-                r = mid - 1;
-            }
-        }
-        return (int) ans;
-    }
+    return (int) ans;
+  }
 }
 
 /*
@@ -65,7 +65,6 @@ public class GoldmanSachs {
  * Return a list that contains the names of high-access employees with any order
  * you want.
  */
-
 
 public class GoldmanSachs {
   public List<String> findHighAccessEmployees(List<List<String>> access_times) {
@@ -359,3 +358,84 @@ A subarray is defined as a non-empty contiguous sequence of elements in an array
         return waysArray.size();
     }
  }
+
+ /*
+  Question 11
+  You are given an integer matrix isWater of size m x n that represents a map of land and water cells.
+If isWater[i][j] == 0, cell (i, j) is a land cell.
+If isWater[i][j] == 1, cell (i, j) is a water cell.
+You must assign each cell a height in a way that follows these rules:
+The height of each cell must be non-negative.
+If the cell is a water cell, its height must be 0.
+Any two adjacent cells must have an absolute height difference of at most 1. A cell is adjacent to another cell if the former is directly north, east, south, or west of the latter (i.e., their sides are touching).
+Find an assignment of heights such that the maximum height in the matrix is maximized.
+Return an integer matrix height of size m x n where height[i][j] is cell (i, j)'s height. If there are multiple solutions, return any of them.
+  */
+
+  public class GoldmanSachs{
+      private static final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+    public int[][] highestPeak(int[][] isWater) {
+        int m = isWater.length, n = isWater[0].length;
+        int[][] height = new int[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (isWater[i][j] == 1) {
+                    height[i][j] = 0;
+                    queue.offer(new int[]{i, j});
+                } else {
+                    height[i][j] = -1;
+                }
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int[] cell = queue.poll();
+            int i = cell[0], j = cell[1];
+
+            
+            for (int[] direction : DIRECTIONS) {
+                int ni = i + direction[0], nj = j + direction[1];
+
+                
+                if (ni >= 0 && ni < m && nj >= 0 && nj < n && height[ni][nj] == -1) {
+                    height[ni][nj] = height[i][j] + 1;
+                    queue.offer(new int[]{ni, nj});
+                }
+            }
+        }
+
+        return height;
+    }
+  }
+ /*
+  Question 12
+  Given a string, Your task is to  complete the function encode that returns the run length encoded string for the given string.
+eg if the input string is “wwwwaaadexxxxxx”, then the function should return “w4a3d1e1x6″.
+You are required to complete the function encode that takes only one argument the string which is to be encoded and returns the encoded string.
+  */
+
+public class GoldmanSachs {
+  String encode(String str)
+    {
+          int l = 0;
+          
+          int r = 0;
+          
+          StringBuilder sb = new StringBuilder();
+          
+          while(r < str.length()){
+              
+              l = r;
+              
+              while(r < str.length() && str.charAt(r) == str.charAt(l))
+               r++;
+              
+               sb.append(str.charAt(l)).append(r-l);
+          }
+         return sb.toString();
+    }
+}
