@@ -477,3 +477,37 @@ Both the left and right subtrees must also be binary search trees.
         return curr;
     }  
  }
+ 
+ /*
+  Question 11 
+  On day 1, one person discovers a secret. You are given an integer delay, which means that each 
+  person will share the secret with a new person every day, starting from delay days after discovering the secret. 
+  You are also given an integer forget, which means that each person will forget the secret forget days after discovering it. 
+  A person cannot share the secret on the same day they forgot it, or on any day afterwards.
+Given an integer n, return the number of people who know the secret at the end of day n. Since the answer may be very large, return it modulo 109 + 7.
+  */
+
+  public class GoldmanSachs {
+    
+    public int peopleAwareOfSecret(int n, int delay, int forget) {
+       
+    long dp[] = new long[n + 1];
+    long mod  = (long)1e9 + 7;
+    long noOfPeopleSharingSecret = 0;
+    long ans = 0;
+    dp[1] = 1;
+    for(int i = 2; i <= n; i++){
+    long noOfnewPeopleSharingSecretOnIthDay = dp[Math.max(i - delay , 0)];
+    long noOfPeopleForgetSecretOnIthDay = dp[Math.max(i - forget , 0)];
+    noOfPeopleSharingSecret += (noOfnewPeopleSharingSecretOnIthDay - noOfPeopleForgetSecretOnIthDay + mod) % mod;
+
+    dp[i] = noOfPeopleSharingSecret;
+    }
+
+    for(int i = n - forget + 1 ; i <= n; i++){
+        ans = (ans + dp[i]) % mod;
+    }
+    return (int)ans;
+    }
+
+  }
