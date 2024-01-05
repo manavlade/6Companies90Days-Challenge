@@ -439,3 +439,41 @@ public class GoldmanSachs {
          return sb.toString();
     }
 }
+
+/*
+ Question 13
+ Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+Assume a BST is defined as follows:
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+ */
+
+ public class GoldmanSachs {
+ int maxSum = 0;
+
+    public int maxSumBST(TreeNode root) {
+        postOrder(root);
+        return maxSum;
+    }
+
+    private int[] postOrder(TreeNode node) {
+        if (node == null) return new int[]{1, Integer.MAX_VALUE, Integer.MIN_VALUE, 0};
+
+        int[] left = postOrder(node.left);
+        int[] right = postOrder(node.right);
+
+        int[] curr = new int[4];
+        if (left[0] == 1 && right[0] == 1 && node.val > left[2] && node.val < right[1]) {
+            curr[0] = 1;
+            curr[1] = Math.min(left[1], node.val);
+            curr[2] = Math.max(right[2], node.val);
+            curr[3] = left[3] + right[3] + node.val;
+            maxSum = Math.max(maxSum, curr[3]);
+        } else {
+            curr[0] = 0;
+            curr[3] = 0; 
+        }
+        return curr;
+    }  
+ }
