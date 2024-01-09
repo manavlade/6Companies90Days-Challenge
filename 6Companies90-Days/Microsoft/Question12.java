@@ -22,6 +22,10 @@ public class Question12 {
        while (left >= 0 || right >= mid) {
         if(left >= 0){
             nums[index++] = temp[left--];
+            // The above line means
+            // nums[index] = temp[left];
+            // index++;
+            // left--;
         }
         if(right >= mid){
             nums[index++] = temp[right--];
