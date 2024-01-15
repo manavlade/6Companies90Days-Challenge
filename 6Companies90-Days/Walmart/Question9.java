@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Quetion9 {
+public class Question9 {
     public List<String> topKFrequent(String[] words, int k) {
         HashMap<String, Integer> mp = new HashMap<>();
         for (String s : words) {
