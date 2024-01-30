@@ -5,8 +5,8 @@ import java.util.Set;
 
 /*
  Question 9
- A cinema has n rows of seats, numbered from 1 to n and there are
-  ten seats in each row, labelled from 1 to 10 as shown in the figure above.
+A cinema has n rows of seats, numbered from 1 to n and there are
+ten seats in each row, labelled from 1 to 10 as shown in the figure above.
 Given the array reservedSeats containing the numbers of seats already 
 reserved, for example, reservedSeats[i] = [3,8] means the seat located in row
 3 and labelled with 8 is already reserved.
