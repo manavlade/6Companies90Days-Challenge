@@ -8,7 +8,7 @@ Return the total number of incremovable subarrays of nums.
 Note that an empty array is considered strictly increasing.
 A subarray is a contiguous non-empty sequence of elements within an array.
  */
-public class Questopm10 {
+public class Question10 {
     public int incremovableSubarrayCount(int[] nums) {
         int len = nums.length, maxi = 0;
         for (int i = 0; i < len; i++) {
