@@ -1,4 +1,3 @@
-
 /*
  Question 2 
  You are given an integer array nums and an integer k. 
